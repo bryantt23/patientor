@@ -22,15 +22,13 @@ const PatientInfo: React.FC = (props: any) => {
   // https://www.carlrippon.com/typed-usestate-with-typescript/
   const [patient, setPatient] = useState<Patient | null>(null);
 
-  const [{ patients, cachedPatients }, dispatch] = useStateValue();
+  const [{ cachedPatients }, dispatch] = useStateValue();
 
   const getPatientFromCache: (id: string) => Patient | undefined = id => {
     return cachedPatients[id];
   };
 
-  const addPatientToCache = () => {};
-
-  console.log(patients, cachedPatients);
+  console.log('cachedPatients', cachedPatients);
 
   React.useEffect(() => {
     const id = props.match.params.id;
@@ -39,8 +37,9 @@ const PatientInfo: React.FC = (props: any) => {
     const fetchPatient = async () => {
       try {
         const cachedPatient = getPatientFromCache(id);
-        console.log(cachedPatient);
+        console.log('cachedPatient', cachedPatient);
         if (cachedPatient) {
+          console.log('patient from cache');
           setPatient(cachedPatient);
           return;
         }
@@ -49,7 +48,8 @@ const PatientInfo: React.FC = (props: any) => {
           `${apiBaseUrl}/patients/${id}`
         );
         setPatient(data);
-        // dispatch({ type: 'SET_PATIENT_LIST', payload: patientListFromApi });
+        console.log('patient from api call');
+        dispatch({ type: 'ADD_PATIENT_TO_CACHE', payload: data });
       } catch (e) {
         console.error(e);
       }
