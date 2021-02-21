@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
 import { Patient } from '../types';
+// import { genderless, DropdownProps, Form } from 'semantic-ui-react';
 
+import { Icon } from 'semantic-ui-react';
 /*
 plan
 get patient info from api
@@ -42,13 +44,24 @@ const PatientInfo: React.FC = (props: any) => {
     fetchPatient();
   }, []);
 
-  console.log(patient);
+  let genderIcon;
   if (!patient) {
     return <p>Loading....</p>;
+  } else {
+    if (patient.gender === 'male') {
+      genderIcon = <Icon name='mars' />;
+    } else if (patient.gender === 'female') {
+      genderIcon = <Icon name='venus' />;
+    } else {
+      genderIcon = <Icon name='genderless' />;
+    }
   }
+
   return (
     <div>
-      <h1>{patient.name}</h1>
+      <h1>
+        {patient.name} {genderIcon}
+      </h1>
       <p>ssn: {patient.ssn}</p>
       <p>dateOfBirth: {patient.dateOfBirth}</p>
       <p>occupation: {patient.occupation}</p>
