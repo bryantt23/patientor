@@ -1,12 +1,20 @@
 import React from 'react';
 
-// interface ContentProps {
-//     courses: Array<CoursePart>;
-// }
+/*
+plan
+get patient info from api
 
-// const Content: React.FC<ContentProps> = ({ courses }) => {
+add state of accessed patients
+
+change logic to first check accessed patients, if id is there just grab it from state
+if not then 
+    get patient info from api
+    create new action to add patient info to state
+
+*/
+
 const PatientInfo: React.FC = () => {
-    return <div>Hi</div>;
+  return <div>Hi</div>;
 };
 
 export default PatientInfo;
