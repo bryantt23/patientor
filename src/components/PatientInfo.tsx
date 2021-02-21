@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
 import { Patient } from '../types';
-// import { genderless, DropdownProps, Form } from 'semantic-ui-react';
-
 import { Icon } from 'semantic-ui-react';
+import { useStateValue } from '../state';
 /*
 plan
 get patient info from api
@@ -23,18 +22,32 @@ const PatientInfo: React.FC = (props: any) => {
   // https://www.carlrippon.com/typed-usestate-with-typescript/
   const [patient, setPatient] = useState<Patient | null>(null);
 
+  const [{ patients, cachedPatients }, dispatch] = useStateValue();
+
+  const getPatientFromCache: (id: string) => Patient | undefined = id => {
+    return cachedPatients[id];
+  };
+
+  const addPatientToCache = () => {};
+
+  console.log(patients, cachedPatients);
+
   React.useEffect(() => {
-    const patientId = props.match.params.id;
+    const id = props.match.params.id;
 
     //TODO maybe add type
     const fetchPatient = async () => {
       try {
+        const cachedPatient = getPatientFromCache(id);
+        console.log(cachedPatient);
+        if (cachedPatient) {
+          setPatient(cachedPatient);
+          return;
+        }
+
         const { data } = await axios.get<Patient>(
-          `${apiBaseUrl}/patients/${patientId}`
+          `${apiBaseUrl}/patients/${id}`
         );
-        console.log(data);
-        // const res = await data.json();
-        // console.log(res);
         setPatient(data);
         // dispatch({ type: 'SET_PATIENT_LIST', payload: patientListFromApi });
       } catch (e) {
