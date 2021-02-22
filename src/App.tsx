@@ -10,7 +10,7 @@ import { Patient } from './types';
 import PatientListPage from './PatientListPage';
 import PatientInfo from './components/PatientInfo';
 
-import setPatientList from './state/reducer';
+import { setPatientList } from './state/reducer';
 
 const App: React.FC = () => {
   const [, dispatch] = useStateValue();
@@ -23,7 +23,6 @@ const App: React.FC = () => {
           `${apiBaseUrl}/patients`
         );
         dispatch(setPatientList(patientListFromApi));
-        dispatch({ type: 'SET_PATIENT_LIST', payload: patientListFromApi });
       } catch (e) {
         console.error(e);
       }

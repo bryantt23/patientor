@@ -4,6 +4,7 @@ import { apiBaseUrl } from '../constants';
 import { Patient } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { useStateValue } from '../state';
+import { addPatientToCache } from '../state/reducer';
 /*
 plan
 get patient info from api
@@ -49,7 +50,7 @@ const PatientInfo: React.FC = (props: any) => {
         );
         setPatient(data);
         console.log('patient from api call');
-        dispatch({ type: 'ADD_PATIENT_TO_CACHE', payload: data });
+        dispatch(addPatientToCache(data));
       } catch (e) {
         console.error(e);
       }
