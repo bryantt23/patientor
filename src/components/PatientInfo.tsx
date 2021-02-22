@@ -6,6 +6,7 @@ import { Icon } from 'semantic-ui-react';
 import { useStateValue } from '../state';
 import { addPatientToCache } from '../state/reducer';
 import Entries from './Entries';
+import AddEntryForm from './AddEntryForm';
 
 const PatientInfo: React.FC = (props: any) => {
   // https://www.carlrippon.com/typed-usestate-with-typescript/
@@ -59,6 +60,11 @@ const PatientInfo: React.FC = (props: any) => {
     }
   }
 
+  const handleSubmit = (e: { preventDefault: (arg0: any) => void }) => {
+    e.preventDefault(e);
+    console.log('handleSubmit');
+  };
+
   return (
     <div>
       <h1>
@@ -67,6 +73,10 @@ const PatientInfo: React.FC = (props: any) => {
       <p>ssn: {patient.ssn}</p>
       <p>dateOfBirth: {patient.dateOfBirth}</p>
       <p>occupation: {patient.occupation}</p>
+      <AddEntryForm
+        onSubmit={(e: any) => handleSubmit(e)}
+        onCancel={() => {}}
+      />
       <Entries entries={patient.entries} />
     </div>
   );
