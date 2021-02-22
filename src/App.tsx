@@ -10,6 +10,8 @@ import { Patient } from './types';
 import PatientListPage from './PatientListPage';
 import PatientInfo from './components/PatientInfo';
 
+import setPatientList from './state/reducer';
+
 const App: React.FC = () => {
   const [, dispatch] = useStateValue();
   React.useEffect(() => {
@@ -20,6 +22,7 @@ const App: React.FC = () => {
         const { data: patientListFromApi } = await axios.get<Patient[]>(
           `${apiBaseUrl}/patients`
         );
+        dispatch(setPatientList(patientListFromApi));
         dispatch({ type: 'SET_PATIENT_LIST', payload: patientListFromApi });
       } catch (e) {
         console.error(e);
