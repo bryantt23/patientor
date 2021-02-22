@@ -60,8 +60,7 @@ const PatientInfo: React.FC = (props: any) => {
     }
   }
 
-  const handleSubmit = (e: { preventDefault: (arg0: any) => void }) => {
-    e.preventDefault(e);
+  const handleSubmit = () => {
     console.log('handleSubmit');
   };
 
@@ -73,10 +72,7 @@ const PatientInfo: React.FC = (props: any) => {
       <p>ssn: {patient.ssn}</p>
       <p>dateOfBirth: {patient.dateOfBirth}</p>
       <p>occupation: {patient.occupation}</p>
-      <AddEntryForm
-        onSubmit={(e: any) => handleSubmit(e)}
-        onCancel={() => {}}
-      />
+      <AddEntryForm onSubmit={() => handleSubmit()} onCancel={() => {}} />
       <Entries entries={patient.entries} />
     </div>
   );
