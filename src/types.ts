@@ -17,6 +17,7 @@ export interface Patient {
   gender: Gender;
   ssn?: string;
   dateOfBirth?: string;
+  entries: Entry[];
 }
 
 export const SET_PATIENT_LIST = 'SET_PATIENT_LIST';
@@ -39,3 +40,55 @@ export interface AddPatientToCacheAction {
 export type Action =
   SetPatientListAction |
   AddPatientToCacheAction | AddPatientAction;
+
+export interface DiagnoseEntry {
+  code: string;
+  name: string;
+  latin?: string;
+}
+
+interface BaseEntry {
+  id: string;
+  date: string;
+  specialist: string;
+  description: string;
+  diagnosisCodes?: Array<DiagnoseEntry['code']>;
+}
+
+export enum HealthCheckRating {
+  "Healthy" = 0,
+  "LowRisk" = 1,
+  "HighRisk" = 2,
+  "CriticalRisk" = 3
+}
+
+interface HealthCheckEntry extends BaseEntry {
+  type: "HealthCheck";
+  healthCheckRating: number;
+}
+
+interface Discharge {
+  date: string;
+  criteria: string;
+}
+
+interface SickLeave {
+  startDate: string;
+  endDate: string;
+}
+
+interface HospitalEntry extends BaseEntry {
+  type: "Hospital";
+  discharge: Discharge;
+}
+
+interface OccupationalHealthcareEntry extends BaseEntry {
+  type: "OccupationalHealthcare";
+  employerName: string;
+  sickLeave?: SickLeave;
+}
+
+export type Entry =
+  | HospitalEntry
+  | OccupationalHealthcareEntry
+  | HealthCheckEntry;

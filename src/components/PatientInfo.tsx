@@ -5,19 +5,7 @@ import { Patient } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { useStateValue } from '../state';
 import { addPatientToCache } from '../state/reducer';
-/*
-plan
-get patient info from api
-
-add state of accessed patients
-
-change logic to first check accessed patients, if id is there just grab it from state
-if not then 
-    get patient info from api
-    create new action to add patient info to state
-
-*/
-// interface IMyProps {}
+import Entries from './Entries';
 
 const PatientInfo: React.FC = (props: any) => {
   // https://www.carlrippon.com/typed-usestate-with-typescript/
@@ -40,7 +28,7 @@ const PatientInfo: React.FC = (props: any) => {
         const cachedPatient = getPatientFromCache(id);
         console.log('cachedPatient', cachedPatient);
         if (cachedPatient) {
-          console.log('patient from cache');
+          console.log('patient from cache', cachedPatient);
           setPatient(cachedPatient);
           return;
         }
@@ -49,7 +37,7 @@ const PatientInfo: React.FC = (props: any) => {
           `${apiBaseUrl}/patients/${id}`
         );
         setPatient(data);
-        console.log('patient from api call');
+        console.log('patient from api call', data);
         dispatch(addPatientToCache(data));
       } catch (e) {
         console.error(e);
@@ -79,6 +67,7 @@ const PatientInfo: React.FC = (props: any) => {
       <p>ssn: {patient.ssn}</p>
       <p>dateOfBirth: {patient.dateOfBirth}</p>
       <p>occupation: {patient.occupation}</p>
+      <Entries entries={patient.entries} />
     </div>
   );
 };
