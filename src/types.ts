@@ -21,9 +21,14 @@ export interface Patient {
 }
 
 export const SET_PATIENT_LIST = 'SET_PATIENT_LIST';
+export const SET_DIAGNOSIS_CODES = 'SET_DIAGNOSIS_CODES';
 export const ADD_PATIENT = 'ADD_PATIENT';
 export const ADD_PATIENT_TO_CACHE = 'ADD_PATIENT_TO_CACHE';
 
+export interface SetDiagnosisCodes {
+  type: typeof SET_DIAGNOSIS_CODES;
+  payload: DiagnoseEntry[];
+}
 export interface SetPatientListAction {
   type: typeof SET_PATIENT_LIST;
   payload: Patient[];
@@ -37,7 +42,7 @@ export interface AddPatientToCacheAction {
   payload: Patient;
 }
 
-export type Action =
+export type Action = SetDiagnosisCodes |
   SetPatientListAction |
   AddPatientToCacheAction | AddPatientAction;
 

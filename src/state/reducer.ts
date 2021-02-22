@@ -1,8 +1,15 @@
 import { State } from "./state";
 import {
-  Patient, ADD_PATIENT, SET_PATIENT_LIST, ADD_PATIENT_TO_CACHE,
-  SetPatientListAction, AddPatientAction, AddPatientToCacheAction, Action
+  Patient, ADD_PATIENT, SET_PATIENT_LIST, ADD_PATIENT_TO_CACHE, SET_DIAGNOSIS_CODES,
+  SetPatientListAction, AddPatientAction, AddPatientToCacheAction, Action, DiagnoseEntry, SetDiagnosisCodes
 } from "../types";
+
+const setDiagnosisCodes = (diagnosisCodes: DiagnoseEntry[]): SetDiagnosisCodes => {
+  return {
+    type: SET_DIAGNOSIS_CODES,
+    payload: diagnosisCodes
+  };
+};
 
 const setPatientList = (patients: Patient[]): SetPatientListAction => {
   return {
@@ -25,10 +32,15 @@ const addPatientToCache = (patient: Patient): AddPatientToCacheAction => {
   };
 };
 
-export { setPatientList, addPatient, addPatientToCache };
+export { setPatientList, addPatient, addPatientToCache, setDiagnosisCodes };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case SET_DIAGNOSIS_CODES:
+      return {
+        ...state,
+        diagnosisCodes: action.payload
+      };
     case SET_PATIENT_LIST:
       return {
         ...state,
