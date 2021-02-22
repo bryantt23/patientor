@@ -1,15 +1,16 @@
 import React from 'react';
 import { useStateValue } from '../state';
+import EntryIcon from './EntryIcon';
 
 const SingleEntry: React.FC<any> = ({ entry }) => {
   const [{ diagnosisCodes }] = useStateValue();
-  console.log('diagnosisCodes', diagnosisCodes);
 
   return (
     <div>
-      <p>
-        {entry.date} {entry.description}
-      </p>
+      <h3>
+        {entry.date} <EntryIcon type={entry.type} />
+      </h3>
+      <p>{entry.description}</p>
       <ul>
         {entry.diagnosisCodes &&
           entry.diagnosisCodes.map((diagnosis: string, i: number) => {
@@ -23,6 +24,7 @@ const SingleEntry: React.FC<any> = ({ entry }) => {
 
             return (
               <li key={i}>
+                <h3></h3>
                 {diagnosis} {description}
               </li>
             );
