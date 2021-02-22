@@ -1,22 +1,8 @@
 import { State } from "./state";
-import { Patient } from "../types";
-
-export const SET_PATIENT_LIST = 'SET_PATIENT_LIST';
-export const ADD_PATIENT = 'ADD_PATIENT';
-export const ADD_PATIENT_TO_CACHE = 'ADD_PATIENT_TO_CACHE';
-
-interface SetPatientListAction {
-  type: typeof SET_PATIENT_LIST;
-  payload: Patient[];
-}
-interface AddPatientAction {
-  type: typeof ADD_PATIENT;
-  payload: Patient;
-}
-interface AddPatientToCacheAction {
-  type: typeof ADD_PATIENT_TO_CACHE;
-  payload: Patient;
-}
+import {
+  Patient, ADD_PATIENT, SET_PATIENT_LIST, ADD_PATIENT_TO_CACHE,
+  SetPatientListAction, AddPatientAction, AddPatientToCacheAction, Action
+} from "../types";
 
 const setPatientList = (patients: Patient[]): SetPatientListAction => {
   return {
@@ -40,10 +26,6 @@ const addPatientToCache = (patient: Patient): AddPatientToCacheAction => {
 };
 
 export { setPatientList, addPatient, addPatientToCache };
-
-export type Action =
-  SetPatientListAction |
-  AddPatientToCacheAction | AddPatientAction;
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
