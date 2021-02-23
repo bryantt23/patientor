@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
-import { Patient } from '../types';
+import { Entry, Patient } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { useStateValue } from '../state';
 import { addPatientToCache } from '../state/reducer';
@@ -60,8 +60,22 @@ const PatientInfo: React.FC = (props: any) => {
     }
   }
 
-  const handleSubmit = () => {
-    console.log('handleSubmit');
+  const addEntry = async (entryInfo: any) => {
+    try {
+      const res = await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${patient.id}/entries`,
+        entryInfo
+      );
+      console.log(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleSubmit = (entryInfo: object) => {
+    console.log('handleSubmit', entryInfo);
+    console.log('patient', patient);
+    addEntry({ ...entryInfo, type: 'HealthCheck' });
   };
 
   return (
@@ -72,7 +86,11 @@ const PatientInfo: React.FC = (props: any) => {
       <p>ssn: {patient.ssn}</p>
       <p>dateOfBirth: {patient.dateOfBirth}</p>
       <p>occupation: {patient.occupation}</p>
-      <AddEntryForm onSubmit={() => handleSubmit()} onCancel={() => {}} />
+      <AddEntryForm
+        onSubmit={(obj: object) => handleSubmit(obj)}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onCancel={() => {}}
+      />
       <Entries entries={patient.entries} />
     </div>
   );
