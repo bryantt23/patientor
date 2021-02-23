@@ -27,7 +27,9 @@ const AddEntryForm: React.FC<any> = ({ onSubmit, message }) => {
   } else if (entryType === 'Hospital') {
     entryComponent = <Hospital onSubmit={(obj: object) => onSubmit(obj)} />;
   } else {
-    entryComponent = <OccupationalHealthcare />;
+    entryComponent = (
+      <OccupationalHealthcare onSubmit={(obj: object) => onSubmit(obj)} />
+    );
   }
   return (
     <div>

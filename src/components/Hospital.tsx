@@ -4,7 +4,6 @@ const Hospital: React.FC<any> = ({ onSubmit }) => {
   const [date, setDate] = useState('2019-05-01');
   const [specialist, setSpecialist] = useState('Dr Cuddy');
   const [description, setDescription] = useState('description');
-  const [healthCheckRating, setHealthCheckRating] = useState(0);
   const [dischargeDate, setDischargeDate] = useState('2019-05-11');
   const [dischargeCriteria, setDischargeCriteria] = useState(
     'get healthy for discharget'
@@ -58,17 +57,6 @@ const Hospital: React.FC<any> = ({ onSubmit }) => {
             value={description}
             onChange={e => {
               setDescription(e.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Health Check Rating:
-          <input
-            type='number'
-            name='healthCheckRating'
-            value={healthCheckRating}
-            onChange={e => {
-              setHealthCheckRating(Number(e.target.value));
             }}
           />
         </label>
