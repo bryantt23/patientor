@@ -1,13 +1,12 @@
 import { useStateValue } from '../state';
 import React, { useEffect, useState } from 'react';
+import HealthCheck from './HealthCheck';
+import OccupationalHealthcare from './OccupationalHealthcare';
+import Hospital from './Hospital';
 
 const AddEntryForm: React.FC<any> = ({ onSubmit, message }) => {
   const [{ diagnosisCodes }] = useStateValue();
   const [selectedDiagnosis, setSelectedDiagnosis] = useState('');
-  const [date, setDate] = useState('2019-05-01');
-  const [specialist, setSpecialist] = useState('Dr House');
-  const [description, setDescription] = useState('');
-  const [healthCheckRating, setHealthCheckRating] = useState(0);
   console.log(diagnosisCodes);
   console.log(selectedDiagnosis);
 
@@ -17,78 +16,42 @@ const AddEntryForm: React.FC<any> = ({ onSubmit, message }) => {
     setSelectedDiagnosis(e.target.value);
   };
 
+  const entryTypes = ['Hospital', 'OccupationalHealthcare', 'HealthCheck'];
+  const [entryType, setEntryType] = useState(entryTypes[0]);
+
+  console.log(entryType);
+
+  let entryComponent;
+  if (entryType === 'HealthCheck') {
+    entryComponent = <HealthCheck onSubmit={(obj: object) => onSubmit(obj)} />;
+  } else if (entryType === 'Hospital') {
+    entryComponent = <Hospital onSubmit={(obj: object) => onSubmit(obj)} />;
+  } else {
+    entryComponent = <OccupationalHealthcare />;
+  }
   return (
     <div>
-      <div id='LOADING'>{message}</div>
-      <form>
-        <h3>Add Entry Form</h3>
-        {diagnosisCodes && (
-          <select onChange={e => handleChange(e)}>
-            {diagnosisCodes.map(diagnosis => (
-              <option key={diagnosis.code} value={diagnosis.code}>
-                {diagnosis.name}
-              </option>
-            ))}
-          </select>
-        )}
-
-        <label>
-          Date:
-          <input
-            type='text'
-            name='date'
-            value={date}
-            onChange={e => {
-              setDate(e.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Specialist:
-          <input
-            type='text'
-            name='specialist'
-            value={specialist}
-            onChange={e => {
-              setSpecialist(e.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Description:
-          <input
-            type='text'
-            name='description'
-            value={description}
-            onChange={e => {
-              setDescription(e.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Health Check Rating:
-          <input
-            type='number'
-            name='healthCheckRating'
-            value={healthCheckRating}
-            onChange={e => {
-              setHealthCheckRating(Number(e.target.value));
-            }}
-          />
-        </label>
-
-        <div>
-          <button
-            type='submit'
-            onClick={e => {
-              e.preventDefault();
-              onSubmit({ date, specialist, description, healthCheckRating });
-            }}
-          >
-            Add Entry
-          </button>
-        </div>
-      </form>
+      <div>{message}</div>
+      <label>
+        Select Entry type:
+        <select onChange={e => setEntryType(e.target.value)}>
+          {entryTypes.map((entry, i) => (
+            <option key={i} value={entry}>
+              {entry}
+            </option>
+          ))}
+        </select>
+      </label>
+      {diagnosisCodes && (
+        <select onChange={e => handleChange(e)}>
+          {diagnosisCodes.map(diagnosis => (
+            <option key={diagnosis.code} value={diagnosis.code}>
+              {diagnosis.name}
+            </option>
+          ))}
+        </select>
+      )}
+      <div>{entryComponent}</div>{' '}
     </div>
   );
 };

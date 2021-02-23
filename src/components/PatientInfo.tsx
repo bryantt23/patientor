@@ -11,7 +11,7 @@ import AddEntryForm from './AddEntryForm';
 const PatientInfo: React.FC = (props: any) => {
   // https://www.carlrippon.com/typed-usestate-with-typescript/
   const [patient, setPatient] = useState<Patient | null>(null);
-  const [message, setMessage] = useState('bb');
+  const [message, setMessage] = useState('');
 
   const [{ cachedPatients }, dispatch] = useStateValue();
 
@@ -70,38 +70,15 @@ const PatientInfo: React.FC = (props: any) => {
       setMessage('good');
       fetchPatient(patient.id, true);
     } catch (e) {
-      setMessage(`
-      
-      
-      
-      error
-      
-      ${e.message}
-      
-      
-      
-      `);
-      console.error(
-        `
-      
-      
-      
-      error
-      
-      ${e.message}
-      
-      
-      
-      `,
-        e
-      );
+      setMessage(`error: ${e.message}`);
+      console.error(`error: ${e}`);
     }
   };
 
   const handleSubmit = (entryInfo: object) => {
     console.log('handleSubmit', entryInfo);
     console.log('patient', patient);
-    addEntry({ ...entryInfo, type: 'HealthCheck' });
+    addEntry({ ...entryInfo });
   };
 
   return (
@@ -115,7 +92,6 @@ const PatientInfo: React.FC = (props: any) => {
       <AddEntryForm
         onSubmit={(obj: object) => handleSubmit(obj)}
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        onCancel={() => {}}
         message={message}
       />
       <Entries entries={patient.entries} />
